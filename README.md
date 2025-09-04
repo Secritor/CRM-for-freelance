@@ -2,13 +2,13 @@
         Проект представляет CRM для фрилансеров
 
 ## Stack
-        1. React, TS, tailwind - основа разработки и верстки
-        2. Redux, React.Context - управление состоянием
-        3. React Router - роутинг
-        4. MaterialUI / ChakraUI - библиотека UI элементов
-        5. recharts / chart.js - графики
-        6. React Hook Form - формы
-        7. jest - тесты
+        1. Next.js, TS
+        2. Redux, React.Context
+        3. Next.js(App Router)
+        4. MaterialUI / ChakraUI, Tailwind
+        5. recharts / chart.js
+        6. React Hook Form
+        7. jest
 
 ## Include
     [ ] 1. Регистрация и Аутентификация
