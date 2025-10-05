@@ -3,6 +3,12 @@
   flex-direction: column;
 }
 
+.title > h2 {
+  margin-bottom: 15px;
+}
+.title > p {
+  color: #6b7280;
+}
 .short_info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
