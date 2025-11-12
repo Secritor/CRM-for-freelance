@@ -1,125 +1,69 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState, AppDispatch } from '@/store/store'
 import styles from './clients.module.css'
 import { Plus, Trash, Search, Phone, Mail, MapPin, Pencil } from 'lucide-react'
 import ClientsModal from '../components/ClientsModal'
-export interface Client {
-  id: number
-  name: string
-  email: string
-  phone: string
-  company: string
-  address: string
-  notes: string
-  createdAt: Date
-}
-
-const initialClients: Client[] = [
-  {
-    id: 1,
-    name: 'John Smith',
-    email: 'john@techcorp.com',
-    phone: '+1 (555) 123-4567',
-    company: 'TechCorp Inc.',
-    address: '123 Business St, New York, NY',
-    notes: 'Prefers email communication',
-    createdAt: new Date(2024, 0, 15),
-  },
-  {
-    id: 2,
-    name: 'Sarah Johnson',
-    email: 'sarah@startupxyz.com',
-    phone: '+1 (555) 987-6543',
-    company: 'StartupXYZ',
-    address: '456 Innovation Ave, San Francisco, CA',
-    notes: 'Interested in mobile app development',
-    createdAt: new Date(2024, 0, 20),
-  },
-  {
-    id: 3,
-    name: 'Mike Wilson',
-    email: 'mike@creativeagency.com',
-    phone: '+1 (555) 456-7890',
-    company: 'Creative Agency',
-    address: '789 Design Blvd, Los Angeles, CA',
-    notes: 'Regular client, pays on time',
-    createdAt: new Date(2024, 1, 5),
-  },
-]
+import Title from '../components/Title'
+import {
+  addClient,
+  updateClient,
+  deleteClient,
+  setSearch,
+  setEditingClient,
+  setModalOpen,
+} from '@/features/clients/clientsSlice'
+import type { Client } from '@/interfaces/main'
 
 export default function Clients() {
-  const [clients, setClients] = useState<Client[]>(initialClients)
-  const [search, setSearch] = useState<string>('')
-  const [editingClient, setEditingClient] = useState<Client | null>(null)
+  const dispatch: AppDispatch = useDispatch()
+  const { clients, search, editingClient, modalOpen } = useSelector(
+    (state: RootState) => state.clients
+  )
 
-  const [modalOpen, setModalOpen] = useState(false)
-
-  // update client
-  const handleUpdateClient = (updatedClient: Client) => {
-    setClients(prev =>
-      prev.map(client => (client.id === updatedClient.id ? updatedClient : client))
-    )
-    setEditingClient(null)
-  }
-
-  // add new client
-  const handleAddClient = (data: Omit<Client, 'id' | 'createAt'>) => {
-    const id = clients.length ? Math.max(...clients.map(c => c.id)) + 1 : 1
-    const newClient: Client = { ...data, id, createdAt: new Date() }
-    setClients(prev => [...prev, newClient])
-  }
-
-  // input filter
+  // Фильтрация клиентов
   const filteredClients = clients.filter(client =>
     client.name.toLowerCase().includes(search.toLowerCase())
   )
 
-  // delete client
-  const handleDelete = (id: number) => {
-    setClients(prev => prev.filter(client => client.id !== id))
-  }
-  // edit client
-  const handleEdit = (id: number) => {
+  // Обработчики
+  const handleAddClient = (data: Omit<Client, 'id' | 'createdAt'>) => dispatch(addClient(data))
+  const handleUpdateClient = (client: Client) => dispatch(updateClient(client))
+  const handleDeleteClient = (id: number) => dispatch(deleteClient(id))
+  const handleEditClient = (id: number) => {
     const clientToEdit = clients.find(c => c.id === id)
     if (!clientToEdit) return
-    setEditingClient(clientToEdit)
-    setModalOpen(true)
+    dispatch(setEditingClient(clientToEdit))
+    dispatch(setModalOpen(true))
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.header_title}>
-          <h1>Clients</h1>
-          <p>Manage your client relationships</p>
-        </div>
-
-        {/* open modal */}
-        <button className={styles.header_button} onClick={() => setModalOpen(true)}>
-          <Plus className={styles.header_icon} />
-          Add Client
-        </button>
-      </div>
-      {/* modal */}
+      <Title
+        titleText={'Clients'}
+        subtitleText={'Manage your client relationships'}
+        buttonText={'Add Client'}
+        buttonIcon={<Plus />}
+        onButtonClick={() => dispatch(setModalOpen(true))}
+      />
 
       <ClientsModal
         open={modalOpen}
-        onOpenChange={open => {
-          setModalOpen(open)
-          if (!open) setEditingClient(null)
-        }}
+        onOpenChange={open => dispatch(setModalOpen(open))}
         onAddClient={handleAddClient}
-        onEditClient={handleUpdateClient} // 👈 теперь передаём корректную функцию
+        onEditClient={handleUpdateClient}
         initialData={editingClient}
       />
+
       <div className={styles.search_wrapper}>
         <Search className={styles.search_icon} />
         <input
           type="text"
           placeholder="Search client..."
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => dispatch(setSearch(e.target.value))}
           className={styles.search_input}
         />
       </div>
@@ -133,26 +77,29 @@ export default function Clients() {
                 <p>{client.company}</p>
               </div>
               <div className={styles.client_edit_icon}>
-                <button className={styles.delete_button} onClick={() => handleEdit(client.id)}>
+                <button
+                  className={styles.delete_button}
+                  onClick={() => handleEditClient(client.id)}
+                >
                   <Pencil className={styles.delete_icon} />
                 </button>
-                <button className={styles.delete_button} onClick={() => handleDelete(client.id)}>
+                <button
+                  className={styles.delete_button}
+                  onClick={() => handleDeleteClient(client.id)}
+                >
                   <Trash className={styles.delete_icon} />
                 </button>
               </div>
             </div>
             <div className={styles.client_info}>
               <p className={styles.client_info_item}>
-                <Mail className={styles.client_icon} />
-                {client.email}
+                <Mail className={styles.client_icon} /> {client.email}
               </p>
               <p className={styles.client_info_item}>
-                <Phone className={styles.client_icon} />
-                {client.phone}
+                <Phone className={styles.client_icon} /> {client.phone}
               </p>
               <p className={styles.client_info_item}>
-                <MapPin className={styles.client_icon} />
-                {client.address}
+                <MapPin className={styles.client_icon} /> {client.address}
               </p>
             </div>
             <div className={styles.client_addition_info}>

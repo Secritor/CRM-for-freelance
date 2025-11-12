@@ -1,6 +1,8 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState, AppDispatch } from '@/store/store'
 import {
   Dialog,
   DialogContent,
@@ -12,24 +14,19 @@ import styles from './ClientsModal.module.css'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import type { Client } from '../clients/page'
 import { Spinner } from '@/components/ui/spinner'
+import type { Client } from '@/interfaces/main'
+import {
+  addClient,
+  updateClient,
+  setEditingClient,
+  setModalOpen,
+} from '@/features/clients/clientsSlice'
 
-interface ClientsModalProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onAddClient: (data: Omit<Client, 'id' | 'createdAt'>) => void
-  onEditClient?: (data: Client) => void
-  initialData?: Client | null
-}
+export default function ClientsModal() {
+  const dispatch: AppDispatch = useDispatch()
+  const { modalOpen, editingClient } = useSelector((state: RootState) => state.clients)
 
-export default function ClientsModal({
-  open,
-  onOpenChange,
-  onAddClient,
-  onEditClient,
-  initialData,
-}: ClientsModalProps) {
   const [formData, setFormData] = useState<Omit<Client, 'id' | 'createdAt'>>({
     name: '',
     email: '',
@@ -41,9 +38,10 @@ export default function ClientsModal({
 
   const [loading, setLoading] = useState(false)
 
+  // При открытии модалки устанавливаем форму
   useEffect(() => {
-    if (initialData) {
-      const { id, createdAt, ...rest } = initialData
+    if (editingClient) {
+      const { id, createdAt, ...rest } = editingClient
       setFormData(rest)
     } else {
       setFormData({
@@ -55,32 +53,33 @@ export default function ClientsModal({
         notes: '',
       })
     }
-  }, [initialData, open])
+  }, [editingClient, modalOpen])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
     // имитация запроса к API
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
-    if (initialData) {
-      onEditClient?.({ ...initialData, ...formData })
+    if (editingClient) {
+      dispatch(updateClient({ ...editingClient, ...formData }))
     } else {
-      onAddClient(formData)
+      dispatch(addClient(formData))
     }
 
     setLoading(false)
-    onOpenChange(false)
+    dispatch(setModalOpen(false))
+    dispatch(setEditingClient(null))
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={modalOpen} onOpenChange={open => dispatch(setModalOpen(open))}>
       <DialogContent className={styles.modal_container}>
         <DialogHeader>
-          <DialogTitle>{initialData ? 'Edit client' : 'Add new client'}</DialogTitle>
+          <DialogTitle>{editingClient ? 'Edit client' : 'Add new client'}</DialogTitle>
           <DialogDescription>
-            {initialData
+            {editingClient
               ? 'Update the client information and save changes.'
               : 'Fill in the client information and save to add them to your list.'}
           </DialogDescription>
@@ -132,7 +131,7 @@ export default function ClientsModal({
                 <span className={styles.spinner_text}>Please wait...</span>
               </>
             ) : (
-              <>{initialData ? 'Save changes' : 'Add client'}</>
+              <>{editingClient ? 'Save changes' : 'Add client'}</>
             )}
           </Button>
         </form>

@@ -1,91 +1,9 @@
 import styles from './page.module.css'
 import { Users, Briefcase, DollarSign, TrendingUp, Clock, Calendar } from 'lucide-react'
-
-interface SummaryData {
-  totalClients: number
-  activeDeals: number
-  monthlyIncome: number
-  totalIncome: number
-}
-
-const summaryData: SummaryData = {
-  totalClients: 12,
-  activeDeals: 8,
-  monthlyIncome: 8500,
-  totalIncome: 45000,
-}
-
-type DealStatus = 'active' | 'pending' | 'completed'
-
-interface Deal {
-  id: number
-  title: string
-  client: string
-  amount: number
-  status: DealStatus
-  date: Date
-}
-
-type EventType = 'meeting' | 'deadline'
-
-interface Event {
-  id: number
-  title: string
-  type: EventType
-  date: Date
-  description: string
-}
-
-const dealsList: Deal[] = [
-  {
-    id: 1,
-    title: 'Website Redesign',
-    client: 'TechCorp Inc.',
-    amount: 2500,
-    status: 'active',
-    date: new Date(2024, 1, 15),
-  },
-  {
-    id: 2,
-    title: 'Mobile App Development',
-    client: 'StartupXYZ',
-    amount: 5000,
-    status: 'pending',
-    date: new Date(2024, 1, 20),
-  },
-  {
-    id: 3,
-    title: 'Logo Design',
-    client: 'Creative Agency',
-    amount: 800,
-    status: 'completed',
-    date: new Date(2024, 1, 10),
-  },
-]
-
-const EventsList: Event[] = [
-  {
-    id: 1,
-    title: 'Client Meeting - TechCorp',
-    type: 'meeting',
-    date: new Date(2024, 1, 25, 14, 0),
-    description: 'Discuss website redesign progress',
-  },
-  {
-    id: 2,
-    title: 'Project Deadline - Mobile App',
-    type: 'deadline',
-    date: new Date(2024, 1, 28, 17, 0),
-    description: 'Submit final deliverables',
-  },
-]
-
-const summaryConfig = [
-  { key: 'totalClients', label: 'Total Clients', icon: <Users />, color: 'primary' },
-  { key: 'activeDeals', label: 'Active Deals', icon: <Briefcase />, color: 'success' },
-  { key: 'monthlyIncome', label: 'Monthly Income', icon: <DollarSign />, color: 'warning' },
-  { key: 'totalIncome', label: 'Total Income', icon: <TrendingUp />, color: 'primary' },
-] as const
+import type { EventType } from '../interfaces/main'
+import { summaryConfig, dealsList, EventsList } from './mockData'
+import Title from './components/Title'
+import CardList from './components/CardList'
 
 const getEventIcon = (type: EventType): React.ReactNode => {
   switch (type) {
@@ -101,26 +19,12 @@ const getEventIcon = (type: EventType): React.ReactNode => {
 export default function Home() {
   return (
     <div className={styles.container}>
-      <div className={styles.title}>
-        <h2>Dashboard</h2>
-        <p>Welcome back! Here`s what`s happening with your business</p>
-      </div>
+      <Title
+        titleText={'Dashboard'}
+        subtitleText={'Welcome back! Here`s what`s happening with your business'}
+      />
+      <CardList cards={summaryConfig} />
 
-      <div className={styles.short_info}>
-        {summaryConfig.map(({ key, label, icon, color }) => (
-          <div key={key} className={styles.card}>
-            <div className={`${styles.icon_wrap} ${styles[color]}`}>{icon}</div>
-            <div className={styles.card_info_wrap}>
-              <p className={styles.card_label}>{label}</p>
-              <p className={styles.card_value}>
-                {key.includes('Income')
-                  ? `$${summaryData[key].toLocaleString()}`
-                  : summaryData[key]}
-              </p>
-            </div>
-          </div>
-        ))}
-      </div>
       <div className={styles.main_info}>
         <div className={styles.recent_deals}>
           <p className={styles.main_info_title}>Recent deals</p>
