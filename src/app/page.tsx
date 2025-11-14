@@ -1,7 +1,7 @@
 import styles from './page.module.css'
 import { Users, Briefcase, DollarSign, TrendingUp, Clock, Calendar } from 'lucide-react'
 import type { EventType } from '../interfaces/main'
-import { summaryConfig, dealsList, EventsList } from './mockData'
+import { summaryConfig, EventsList, clientData } from './mockData'
 import Title from './components/Title'
 import CardList from './components/CardList'
 
@@ -15,6 +15,12 @@ const getEventIcon = (type: EventType): React.ReactNode => {
       return <Calendar className={styles.event_icon} />
   }
 }
+const dealsList = clientData.flatMap(client =>
+  client.deals.map(deal => ({
+    ...deal,
+    client: client.name,
+  }))
+)
 
 export default function Home() {
   return (
@@ -34,7 +40,7 @@ export default function Home() {
                 <div className={styles.deal_left_info}>
                   <div className={styles.deal_title}>{deal.title}</div>
                   <div className={styles.deal_client}>{deal.client}</div>
-                  <div className={styles.deal_date}>{deal.date.toLocaleDateString()}</div>
+                  <div className={styles.deal_date}>{deal.createdAt}</div>
                 </div>
 
                 <div className={styles.deal_right_info}>
