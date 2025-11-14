@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { Client, ClientsState } from '@/interfaces/main'
-import { initialClients } from '@/app/mockData'
+import { clientData } from '@/app/mockData'
 
 const initialState: ClientsState = {
-  clients: initialClients,
+  clients: clientData,
   search: '',
   editingClient: null,
   modalOpen: false,
@@ -17,7 +17,7 @@ const clientsSlice = createSlice({
       state.clients = action.payload
     },
     addClient: (state, action: PayloadAction<Omit<Client, 'id' | 'createdAt'>>) => {
-      const id = state.clients.length ? Math.max(...state.clients.map(c => c.id)) + 1 : 1
+      const id = crypto.randomUUID()
       state.clients.push({ ...action.payload, id, createdAt: new Date().toISOString() })
     },
     updateClient: (state, action: PayloadAction<Client>) => {
