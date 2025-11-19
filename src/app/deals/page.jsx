@@ -1,10 +1,11 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { Plus, Search, Edit, Trash, DollarSign, User, Pencil } from 'lucide-react'
+import { Plus, Search, Edit, Trash, DollarSign, User, Pencil, Car } from 'lucide-react'
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 import './deals.css'
 import Title from '../components/Title'
+import CardList from '../components/CardList'
 
 const Deals = () => {
   const [deals, setDeals] = useState([])
@@ -207,7 +208,29 @@ const Deals = () => {
   const completedValue = deals
     .filter(deal => deal.status === 'completed')
     .reduce((sum, deal) => sum + deal.amount, 0)
-
+  const dealStat = [
+    {
+      key: crypto.randomUUID(),
+      title: 'Total value',
+      value: totalValue,
+      color: 'primary',
+      icon: 'dollarSign',
+    },
+    {
+      key: crypto.randomUUID(),
+      title: 'Active Deals',
+      value: activeValue,
+      color: 'success',
+      icon: 'dollarSign',
+    },
+    {
+      key: crypto.randomUUID(),
+      title: 'Completed',
+      value: completedValue,
+      color: 'primary',
+      icon: 'dollarSign',
+    },
+  ]
   return (
     <div className="deals-container">
       <Title
@@ -217,7 +240,8 @@ const Deals = () => {
         buttonIcon={<Plus />}
         onButtonClick={() => setShowAddModal(true)}
       />
-
+      {/* replace on CardsList */}
+      {/* 
       <div className="deals-stats">
         <div className="card">
           <DollarSign className="icon-large icon-primary" />
@@ -240,7 +264,10 @@ const Deals = () => {
             <p className="stat-value">${completedValue.toLocaleString()}</p>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <CardList cards={dealStat} />
+      {/* replace on CardsList */}
 
       <div className="deals-filters">
         <div className="filter-search">
