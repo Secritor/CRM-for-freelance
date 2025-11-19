@@ -1,5 +1,5 @@
 .card {
-  background-color:;
+  /* background-color:; */
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -9,6 +9,31 @@
   gap: 12px;
 }
 
-.table-card {
+.table_card {
   overflow-x: auto;
+}
+
+.client_info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.client_avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #e0e7ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon_small {
+  width: 16px;
+  height: 16px;
+}
+
+.icon_primary {
+  color: #4f46e5;
 }
