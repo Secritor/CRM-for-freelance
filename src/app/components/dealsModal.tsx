@@ -1,3 +1,13 @@
+import {
+  addDeal,
+  updateDeal,
+  deleteDeal,
+  setDeals,
+  setClients,
+  setSearchTerm,
+  setStatusFilter,
+} from '../../features/deals/dealsSlice'
+
 export default function dealsModal ({opepingStatus, formData, clients, handleEditDeal, handleAddDeal}) {
     return (
         <div className="modal-backdrop">

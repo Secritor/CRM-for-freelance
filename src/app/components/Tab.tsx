@@ -1,6 +1,8 @@
 import { Plus, Search, Edit, Trash, DollarSign, User, Pencil, Car } from 'lucide-react'
 import styles from './Tab.module.css'
-export default function Tab({ array, openEditModal, handleDeleteDeal }) {
+import type { Deal, TabProps } from '@/interfaces/main'
+
+export default function Tab({ array, openEditModal, handleDeleteDeal }: TabProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'active':
@@ -15,7 +17,6 @@ export default function Tab({ array, openEditModal, handleDeleteDeal }) {
         return 'status-pending'
     }
   }
-  //className="card table-card"
   return (
     <div className={`${styles.card} ${styles.table_card}`}>
       <table>

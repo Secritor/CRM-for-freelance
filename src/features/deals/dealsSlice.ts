@@ -20,6 +20,9 @@ interface DealsState {
   clients: { id: number; name: string; company: string }[]
   searchTerm: string
   statusFilter: string
+
+  editingDeal: Deal | null
+  isModalOpen: boolean
 }
 
 const initialState: DealsState = {
@@ -27,6 +30,8 @@ const initialState: DealsState = {
   clients: [],
   searchTerm: '',
   statusFilter: 'all',
+  editingDeal: null,
+  isModalOpen: false,
 }
 
 const dealsSlice = createSlice({
@@ -54,6 +59,14 @@ const dealsSlice = createSlice({
     setStatusFilter(state, action: PayloadAction<string>) {
       state.statusFilter = action.payload
     },
+    openEditModal(state, action: PayloadAction<Deal>) {
+      state.editingDeal = action.payload
+      state.isModalOpen = true
+    },
+    closeModal(state) {
+      state.editingDeal = null
+      state.isModalOpen = false
+    },
   },
 })
 
@@ -65,6 +78,8 @@ export const {
   deleteDeal,
   setSearchTerm,
   setStatusFilter,
+  openEditModal,
+  closeModal,
 } = dealsSlice.actions
 
 export default dealsSlice.reducer

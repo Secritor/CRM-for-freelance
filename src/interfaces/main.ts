@@ -25,12 +25,15 @@ export interface ClientsModalProps {
 export type DealStatus = 'active' | 'pending' | 'completed'
 
 export interface Deal {
-  id: number
+  id: string | number
   title: string
-  client: string
+  description: string
+  clientName: string
+  clientCompany: string
   amount: number
   status: DealStatus
-  date: Date | string
+  startDate: string
+  endDate: string
 }
 
 export type EventType = 'meeting' | 'deadline'
@@ -47,4 +50,10 @@ export interface ClientsState {
   search: string
   editingClient: Client | null
   modalOpen: boolean
+}
+
+export interface TabProps {
+  array: Deal[]
+  openEditModal: (deal: Deal) => void
+  handleDeleteDeal: (id: Deal['id']) => void
 }

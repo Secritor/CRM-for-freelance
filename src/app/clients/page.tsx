@@ -6,6 +6,7 @@ import { RootState, AppDispatch } from '@/store/store'
 import styles from './clients.module.css'
 import { Plus, Trash, Search, Phone, Mail, MapPin, Pencil } from 'lucide-react'
 import ClientsModal from '../components/ClientsModal'
+import HandleModal from '../components/HandleModal'
 import Title from '../components/Title'
 import {
   addClient,
@@ -49,12 +50,34 @@ export default function Clients() {
         onButtonClick={() => dispatch(setModalOpen(true))}
       />
 
-      <ClientsModal
+      <HandleModal
         open={modalOpen}
-        onOpenChange={open => dispatch(setModalOpen(open))}
-        onAddClient={handleAddClient}
-        onEditClient={handleUpdateClient}
-        initialData={editingClient}
+        onClose={() => dispatch(setModalOpen(false))}
+        title={editingClient ? 'Edit client' : 'Add client'}
+        description="Fill in the client data"
+        initialValues={
+          editingClient || {
+            name: '',
+            email: '',
+            phone: '',
+            company: '',
+            address: '',
+            notes: '',
+          }
+        }
+        fields={[
+          { name: 'name', label: 'Name', type: 'text', required: true },
+          { name: 'email', label: 'Email', type: 'email' },
+          { name: 'phone', label: 'Phone', type: 'text' },
+          { name: 'company', label: 'Company', type: 'text' },
+          { name: 'address', label: 'Address', type: 'text' },
+          { name: 'notes', label: 'Notes', type: 'textarea' },
+        ]}
+        onSubmit={data => {
+          if (editingClient) dispatch(updateClient({ ...editingClient, ...data }))
+          else dispatch(addClient(data))
+          dispatch(setModalOpen(false))
+        }}
       />
 
       <div className={styles.search_wrapper}>
