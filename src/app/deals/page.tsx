@@ -1,10 +1,15 @@
 'use client'
 import React, { useEffect } from 'react'
 import { Plus, Search } from 'lucide-react'
+import { clientData } from '../mockData'
 import toast from 'react-hot-toast'
 import './deals.css'
+
 import Title from '../components/Title'
 import CardList from '../components/CardList'
+import Tab from '../components/Tab'
+import HandleModal from '../components/HandleModal'
+
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addDeal,
@@ -18,8 +23,6 @@ import {
   closeModal,
 } from '../../features/deals/dealsSlice'
 import { RootState } from '@/store/store'
-import Tab from '../components/Tab'
-import HandleModal from '../components/HandleModal'
 
 const Deals = () => {
   const dispatch = useDispatch()
@@ -118,7 +121,16 @@ const Deals = () => {
     .filter(d => d.status === 'completed')
     .reduce((sum, d) => sum + d.amount, 0)
 
-  const dealStat = [
+  interface DealStat {
+    key: string
+    title: string
+    value: number
+    color: string
+    icon: string
+    format?: string
+  }
+
+  const dealStat: DealStat[] = [
     {
       key: crypto.randomUUID(),
       title: 'Total value',
@@ -224,8 +236,18 @@ const Deals = () => {
           { name: 'description', label: 'Description', type: 'textarea' },
         ]}
         onSubmit={data => {
-          if (editingDeal) dispatch(updateDeal({ ...editingDeal, ...data }))
-          else dispatch(addDeal(data as any))
+          const client = clients.find(c => c.id === Number(data.clientId))
+
+          const newDeal = {
+            ...data,
+            amount: Number(data.amount),
+            clientId: Number(data.clientId),
+            clientName: client?.name ?? '',
+            clientCompany: client?.company ?? '',
+          }
+
+          if (editingDeal) dispatch(updateDeal({ ...editingDeal, ...newDeal }))
+          else dispatch(addDeal(newDeal))
 
           dispatch(closeModal())
         }}

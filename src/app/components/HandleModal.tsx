@@ -4,8 +4,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
 import { useState, useEffect } from 'react'
-
+import styles from './HandleModal.module.css'
 export type FieldType = 'text' | 'email' | 'number' | 'date' | 'select' | 'textarea'
 
 export interface UniversalField {
@@ -38,6 +39,7 @@ export default function HandleModal({
   onClose,
 }: HandleModalProps) {
   const [form, setForm] = useState(initialValues)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setForm(initialValues)
@@ -47,20 +49,33 @@ export default function HandleModal({
     setForm(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit(form)
+    setLoading(true)
+
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
+    const normalized = {
+      ...form,
+      amount: Number(form.amount),
+      clientId: Number(form.clientId),
+      clientName: form?.name ?? '',
+      clientCompany: form?.company ?? '',
+    }
+
+    onSubmit(normalized)
+    setLoading(false)
   }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="p-6">
+      <DialogContent className={styles.modal_container}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           {description && <p className="text-sm text-gray-600">{description}</p>}
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
+        <form onSubmit={handleSubmit} className={styles.form_container}>
           {fields.map(field => {
             const value = form[field.name] ?? ''
 
@@ -72,6 +87,7 @@ export default function HandleModal({
                     placeholder={field.label}
                     required={field.required}
                     value={value}
+                    className={styles.form_input}
                     onChange={e => handleChange(field.name, e.target.value)}
                   />
                 )
@@ -80,7 +96,7 @@ export default function HandleModal({
                 return (
                   <select
                     key={field.name}
-                    className="border rounded p-2"
+                    className={styles.form_input}
                     value={value}
                     required={field.required}
                     onChange={e => handleChange(field.name, e.target.value)}
@@ -102,13 +118,23 @@ export default function HandleModal({
                     required={field.required}
                     type={field.type}
                     value={value}
+                    className={styles.form_input}
                     onChange={e => handleChange(field.name, e.target.value)}
                   />
                 )
             }
           })}
 
-          <Button type="submit">Save</Button>
+          <Button type="submit" className={styles.form_button} disabled={loading}>
+            {loading ? (
+              <>
+                <Spinner className={styles.spinner_icon} />
+                <span className={styles.spinner_text}>Please wait...</span>
+              </>
+            ) : (
+              <>Save</>
+            )}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>
