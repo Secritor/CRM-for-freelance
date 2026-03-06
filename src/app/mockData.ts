@@ -1,4 +1,4 @@
-import type { Deal, Event, Client } from '../interfaces/main'
+import type { Event, Client } from '../interfaces/main'
 export const summaryConfig = [
   { key: 'totalClients', title: 'Total Clients', icon: 'users', color: 'primary', value: 12 },
   { key: 'activeDeals', title: 'Active Deals', icon: 'briefCase', color: 'success', value: 8 },
@@ -35,9 +35,9 @@ export const EventsList: Event[] = [
   },
 ]
 
-export const clientData = [
+export const clientData: Client[] = [
   {
-    id: crypto.randomUUID(),
+    id: 1,
     name: 'John Smith',
     email: 'john@techcorp.com',
     phone: '+1 (555) 123-4567',
@@ -45,32 +45,9 @@ export const clientData = [
     address: '123 Business St, New York, NY',
     notes: 'Prefers email communication',
     createdAt: '15.01.2024',
-    deals: [
-      {
-        id: crypto.randomUUID(),
-        title: 'Website Redesign',
-        amount: 2500,
-        status: 'active',
-        startDate: '01.02.2024',
-        endDate: '15.04.2024',
-        description: 'Complete website redesign with modern UI/UX',
-        createdAt: '15.01.2024',
-      },
-      {
-        id: crypto.randomUUID(),
-        title: 'E-commerce Platform',
-        amount: 3500,
-        status: 'active',
-        startDate: '01.03.2024',
-        endDate: '01.06.2024',
-        description: 'Full e-commerce platform with payment integration',
-        createdAt: '15.02.2024',
-      },
-    ],
   },
-
   {
-    id: crypto.randomUUID(),
+    id: 2,
     name: 'Sarah Johnson',
     email: 'sarah@startupxyz.com',
     phone: '+1 (555) 987-6543',
@@ -78,22 +55,9 @@ export const clientData = [
     address: '456 Innovation Ave, San Francisco, CA',
     notes: 'Interested in mobile app development',
     createdAt: '20.01.2024',
-    deals: [
-      {
-        id: crypto.randomUUID(),
-        title: 'Mobile App Development',
-        amount: 5000,
-        status: 'pending',
-        startDate: '20.02.2024',
-        endDate: '20.05.2024',
-        description: 'iOS and Android mobile application development',
-        createdAt: '20.01.2024',
-      },
-    ],
   },
-
   {
-    id: crypto.randomUUID(),
+    id: 3,
     name: 'Mike Wilson',
     email: 'mike@creativeagency.com',
     phone: '+1 (555) 456-7890',
@@ -101,17 +65,5 @@ export const clientData = [
     address: '789 Design Blvd, Los Angeles, CA',
     notes: 'Regular client, pays on time',
     createdAt: '05.02.2024',
-    deals: [
-      {
-        id: crypto.randomUUID(),
-        title: 'Logo Design',
-        amount: 800,
-        status: 'completed',
-        startDate: '10.01.2024',
-        endDate: '25.01.2024',
-        description: 'Brand logo and identity design',
-        createdAt: '05.01.2024',
-      },
-    ],
   },
 ]

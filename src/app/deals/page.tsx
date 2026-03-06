@@ -1,104 +1,42 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Plus, Search } from 'lucide-react'
-import { clientData } from '../mockData'
 import toast from 'react-hot-toast'
 import './deals.css'
 
 import Title from '../components/Title'
 import CardList from '../components/CardList'
 import Tab from '../components/Tab'
-import HandleModal from '../components/HandleModal'
+import UniversalModal from '../components/UniversalModal'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addDeal,
   updateDeal,
   deleteDeal,
-  setDeals,
-  setClients,
   setSearchTerm,
   setStatusFilter,
   openEditModal,
   closeModal,
 } from '../../features/deals/dealsSlice'
 import { RootState } from '@/store/store'
+import type { CardItem, Deal } from '@/interfaces/main'
 
 const Deals = () => {
   const dispatch = useDispatch()
 
-  const { deals, clients, searchTerm, statusFilter, editingDeal, isModalOpen } = useSelector(
+  const { deals, searchTerm, statusFilter, editingDeal, isModalOpen } = useSelector(
     (state: RootState) => state.deals
   )
+  const { clients: clientsList } = useSelector((state: RootState) => state.clients)
 
-  useEffect(() => {
-    dispatch(
-      setClients([
-        { id: 1, name: 'John Smith', company: 'TechCorp Inc.' },
-        { id: 2, name: 'Sarah Johnson', company: 'StartupXYZ' },
-        { id: 3, name: 'Mike Wilson', company: 'Creative Agency' },
-      ])
-    )
+  const clients = clientsList.map(c => ({
+    id: c.id,
+    name: c.name,
+    company: c.company,
+  }))
 
-    dispatch(
-      setDeals([
-        {
-          id: 1,
-          title: 'Website Redesign',
-          clientId: 1,
-          clientName: 'John Smith',
-          clientCompany: 'TechCorp Inc.',
-          amount: 2500,
-          status: 'active',
-          startDate: '',
-          endDate: '',
-          description: 'Complete website redesign with modern UI/UX',
-          createdAt: '',
-        },
-        {
-          id: 2,
-          title: 'Mobile App Development',
-          clientId: 2,
-          clientName: 'Sarah Johnson',
-          clientCompany: 'StartupXYZ',
-          amount: 5000,
-          status: 'pending',
-          startDate: '',
-          endDate: '',
-          description: 'iOS and Android mobile application development',
-          createdAt: '',
-        },
-        {
-          id: 3,
-          title: 'Logo Design',
-          clientId: 3,
-          clientName: 'Mike Wilson',
-          clientCompany: 'Creative Agency',
-          amount: 800,
-          status: 'completed',
-          startDate: '',
-          endDate: '',
-          description: 'Brand logo and identity design',
-          createdAt: '',
-        },
-        {
-          id: 4,
-          title: 'E-commerce Platform',
-          clientId: 1,
-          clientName: 'John Smith',
-          clientCompany: 'TechCorp Inc.',
-          amount: 3500,
-          status: 'active',
-          startDate: '',
-          endDate: '',
-          description: 'Full e-commerce platform with payment integration',
-          createdAt: '',
-        },
-      ])
-    )
-  }, [dispatch])
-
-  const handleDeleteDeal = (dealId: number) => {
+  const handleDeleteDeal = (dealId: Deal['id']) => {
     if (window.confirm('Are you sure?')) {
       dispatch(deleteDeal(dealId))
       toast.success('Deal deleted!')
@@ -121,36 +59,30 @@ const Deals = () => {
     .filter(d => d.status === 'completed')
     .reduce((sum, d) => sum + d.amount, 0)
 
-  interface DealStat {
-    key: string
-    title: string
-    value: number
-    color: string
-    icon: string
-    format?: string
-  }
-
-  const dealStat: DealStat[] = [
+  const dealStat: CardItem[] = [
     {
-      key: crypto.randomUUID(),
+      key: 'total-value',
       title: 'Total value',
       value: totalValue,
       color: 'primary',
       icon: 'dollarSign',
+      format: 'money',
     },
     {
-      key: crypto.randomUUID(),
+      key: 'active-deals',
       title: 'Active Deals',
       value: activeValue,
       color: 'success',
       icon: 'dollarSign',
+      format: 'money',
     },
     {
-      key: crypto.randomUUID(),
+      key: 'completed',
       title: 'Completed',
       value: completedValue,
       color: 'primary',
       icon: 'dollarSign',
+      format: 'money',
     },
   ]
 
@@ -161,7 +93,7 @@ const Deals = () => {
         subtitleText="Manage your deals and track progress"
         buttonText="Add Deal"
         buttonIcon={<Plus />}
-        onButtonClick={() => dispatch(openEditModal(null as any))}
+        onButtonClick={() => dispatch(openEditModal(null))}
       />
 
       <CardList cards={dealStat} />
@@ -192,20 +124,31 @@ const Deals = () => {
         handleDeleteDeal={handleDeleteDeal}
       />
 
-      <HandleModal
+      <UniversalModal
         open={isModalOpen}
         onClose={() => dispatch(closeModal())}
         title={editingDeal ? 'Edit deal' : 'Add new deal'}
+        submitText={editingDeal ? 'Save' : 'Add'}
         initialValues={
-          editingDeal || {
-            title: '',
-            clientId: '',
-            amount: '',
-            status: 'pending',
-            startDate: '',
-            endDate: '',
-            description: '',
-          }
+          editingDeal
+            ? {
+                title: editingDeal.title,
+                clientId: editingDeal.clientId,
+                amount: editingDeal.amount,
+                status: editingDeal.status,
+                startDate: editingDeal.startDate,
+                endDate: editingDeal.endDate,
+                description: editingDeal.description ?? '',
+              }
+            : {
+                title: '',
+                clientId: '',
+                amount: '',
+                status: 'pending',
+                startDate: '',
+                endDate: '',
+                description: '',
+              }
         }
         fields={[
           { name: 'title', label: 'Deal Title', type: 'text', required: true },
@@ -238,16 +181,23 @@ const Deals = () => {
         onSubmit={data => {
           const client = clients.find(c => c.id === Number(data.clientId))
 
-          const newDeal = {
-            ...data,
-            amount: Number(data.amount),
+          const dealData = {
+            title: String(data.title ?? ''),
             clientId: Number(data.clientId),
             clientName: client?.name ?? '',
             clientCompany: client?.company ?? '',
+            amount: Number(data.amount),
+            status: (data.status as 'pending' | 'active' | 'completed' | 'cancelled') ?? 'pending',
+            startDate: String(data.startDate ?? ''),
+            endDate: String(data.endDate ?? ''),
+            description: String(data.description ?? ''),
           }
 
-          if (editingDeal) dispatch(updateDeal({ ...editingDeal, ...newDeal }))
-          else dispatch(addDeal(newDeal))
+          if (editingDeal) {
+            dispatch(updateDeal({ ...editingDeal, ...dealData }))
+          } else {
+            dispatch(addDeal(dealData))
+          }
 
           dispatch(closeModal())
         }}

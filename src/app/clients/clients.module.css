@@ -73,10 +73,8 @@
   height: 1rem;
 }
 
-.no_clients {
-  text-align: center;
-  color: #6b7280;
-  font-style: italic;
+.empty_state_wrapper {
+  grid-column: 1 / -1;
 }
 
 .search_input {

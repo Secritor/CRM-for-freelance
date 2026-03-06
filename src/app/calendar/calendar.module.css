@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+.calendar_wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}

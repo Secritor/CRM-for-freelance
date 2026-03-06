@@ -1,11 +1,15 @@
 .sidebar {
   width: 16rem;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   background-color: white;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
 }
 
 .sidebarHeader {
@@ -94,7 +98,13 @@
   gap: 0.5rem;
   font-size: 0.875rem;
   cursor: pointer;
+  background: none;
+  border: none;
+  color: #374151;
+  padding: 0.5rem 0;
+  transition: color 0.15s ease;
 }
 
-.logout > a {
+.logout:hover {
+  color: #ef4444;
 }

@@ -1,6 +1,7 @@
-import { Plus, Search, Edit, Trash, DollarSign, User, Pencil, Car } from 'lucide-react'
+import { User, Pencil, Trash, Briefcase } from 'lucide-react'
 import styles from './Tab.module.css'
-import type { Deal, TabProps } from '@/interfaces/main'
+import type { TabProps } from '@/interfaces/main'
+import EmptyState from './EmptyState'
 
 export default function Tab({ array, openEditModal, handleDeleteDeal }: TabProps) {
   const getStatusColor = (status: string) => {
@@ -17,6 +18,19 @@ export default function Tab({ array, openEditModal, handleDeleteDeal }: TabProps
         return 'status-pending'
     }
   }
+
+  if (array.length === 0) {
+    return (
+      <div className={`${styles.card} ${styles.table_card}`}>
+        <EmptyState
+          icon={<Briefcase />}
+          title="No deals found"
+          description="Create your first deal or adjust your filters"
+        />
+      </div>
+    )
+  }
+
   return (
     <div className={`${styles.card} ${styles.table_card}`}>
       <table>
@@ -53,8 +67,8 @@ export default function Tab({ array, openEditModal, handleDeleteDeal }: TabProps
                 <span className={`status-badge ${getStatusColor(deal.status)}`}>{deal.status}</span>
               </td>
               <td>
-                <p>Start: {deal.startDate}</p>
-                <p>End: {deal.endDate}</p>
+                <p>Start: {deal.startDate || '—'}</p>
+                <p>End: {deal.endDate || '—'}</p>
               </td>
               <td>
                 <button onClick={() => openEditModal(deal)} className="card-button">

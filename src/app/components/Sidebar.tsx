@@ -1,8 +1,16 @@
+'use client'
+
 import Link from 'next/link'
 import { Home, Users, Briefcase, Calendar, BarChart3, LogOut, User } from 'lucide-react'
+import { useSelector, useDispatch } from 'react-redux'
+import type { RootState } from '@/store/store'
+import { logout } from '@/features/auth/authSlice'
 import styles from './Sidebar.module.css'
 
 export const Sidebar = () => {
+  const dispatch = useDispatch()
+  const user = useSelector((state: RootState) => state.auth.user)
+
   const navigation = [
     { name: 'Dashboard', href: '/', icon: Home },
     { name: 'Clients', href: '/clients', icon: Users },
@@ -10,6 +18,10 @@ export const Sidebar = () => {
     { name: 'Calendar', href: '/calendar', icon: Calendar },
     { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   ]
+
+  const handleLogout = () => {
+    dispatch(logout())
+  }
 
   return (
     <aside className={styles.sidebar}>
@@ -34,14 +46,14 @@ export const Sidebar = () => {
         <div className={styles.user_info}>
           <User className={styles.icon} />
           <div className={styles.user_name}>
-            <span>Demo User</span>
-            <span>User@gmail.com</span>
+            <span>{user?.name || 'User'}</span>
+            <span>{user?.email || ''}</span>
           </div>
         </div>
-        <div className={styles.logout}>
+        <button className={styles.logout} onClick={handleLogout}>
           <LogOut className={styles.icon} />
-          <a href="#">Logout</a>
-        </div>
+          <span>Logout</span>
+        </button>
       </div>
     </aside>
   )

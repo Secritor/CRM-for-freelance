@@ -1,21 +1,13 @@
 import { ReactNode } from 'react'
 import styles from './CardList.module.css'
 import { Users, Briefcase, DollarSign, TrendingUp } from 'lucide-react'
-
-interface CardItem {
-  key: string
-  title: string
-  value: number
-  color: string
-  icon: string
-  format?: 'money' | 'default'
-}
+import type { CardItem, CardFormat, CardIcon } from '@/interfaces/main'
 
 interface CardListProps {
   cards: CardItem[]
 }
 
-const iconParser: Record<string, ReactNode> = {
+const iconParser: Record<CardIcon, ReactNode> = {
   dollarSign: <DollarSign />,
   briefCase: <Briefcase />,
   trendingUp: <TrendingUp />,
@@ -23,10 +15,15 @@ const iconParser: Record<string, ReactNode> = {
 }
 
 export default function CardList({ cards }: CardListProps) {
-  // const formatMoney = (value: number | string) => {
-  //   if (typeof value !== 'number') return value
-  //   return new Intl.NumberFormat('ru-RU').format(value) + ' $'
-  // }
+  const formatValue = (value: number, format?: CardFormat) => {
+    if (format === 'money') {
+      return '$' + value.toLocaleString('en-US')
+    }
+    if (format === 'percent') {
+      return value.toLocaleString('en-US') + '%'
+    }
+    return value.toLocaleString('en-US')
+  }
 
   return (
     <div className={styles.short_info}>
@@ -39,7 +36,7 @@ export default function CardList({ cards }: CardListProps) {
 
             <div className={styles.card_info_wrap}>
               <p className={styles.card_label}>{card.title}</p>
-              <p className={styles.card_value}>{card.value}</p>
+              <p className={styles.card_value}>{formatValue(card.value, card.format)}</p>
             </div>
           </div>
         )

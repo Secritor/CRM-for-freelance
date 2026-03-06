@@ -1,5 +1,6 @@
 import React from 'react'
+import CalendarPageClient from '../components/CalendarPageClient'
 
-export default function calendar() {
-  return <div>calendar</div>
+export default function CalendarPage() {
+  return <CalendarPageClient />
 }
