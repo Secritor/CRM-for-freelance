@@ -53,18 +53,11 @@
   font-size: clamp(12px, 2vw, 18px);
   cursor: pointer;
   transition: background 0.2s;
+  position: relative;
 }
 
 .calendar_cell:hover {
   background: #f0f8ff;
-}
-
-.calendar_cell {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #eee;
 }
 
 .has_event {

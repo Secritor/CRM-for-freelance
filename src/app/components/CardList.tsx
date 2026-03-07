@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import styles from './CardList.module.css'
+import styles from '@/app/components-styles/CardList.module.css'
 import { Users, Briefcase, DollarSign, TrendingUp } from 'lucide-react'
 import type { CardItem, CardFormat, CardIcon } from '@/interfaces/main'
 

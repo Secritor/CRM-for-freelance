@@ -1,8 +1,6 @@
-'use client'
-
 import React, { useCallback, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
-import styles from './Calendar.module.css'
+import styles from '@/app/components-styles/Calendar.module.css'
 import type { RootState } from '@/store/store'
 
 const weekDays = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']

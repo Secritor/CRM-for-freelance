@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect, useMemo } from 'react'
 import {
   Dialog,
@@ -8,9 +6,9 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from '@/components/ui/dialog'
+} from '@/ui/dialog'
 import type { FieldConfig } from '@/interfaces/main'
-import styles from './UniversalModal.module.css'
+import styles from '@/app/components-styles/UniversalModal.module.css'
 
 interface UniversalModalProps {
   open: boolean

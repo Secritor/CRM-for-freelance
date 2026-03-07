@@ -1,11 +1,9 @@
-'use client'
-
-import Link from 'next/link'
+import { Link } from 'react-router-dom'
 import { Home, Users, Briefcase, Calendar, BarChart3, LogOut, User } from 'lucide-react'
 import { useSelector, useDispatch } from 'react-redux'
 import type { RootState } from '@/store/store'
 import { logout } from '@/features/auth/authSlice'
-import styles from './Sidebar.module.css'
+import styles from '@/app/components-styles/Sidebar.module.css'
 
 export const Sidebar = () => {
   const dispatch = useDispatch()
@@ -34,7 +32,7 @@ export const Sidebar = () => {
         {navigation.map(item => {
           const Icon = item.icon
           return (
-            <Link key={item.name} href={item.href} className={styles.navItem}>
+            <Link key={item.name} to={item.href} className={styles.navItem}>
               <Icon className={styles.icon} />
               {item.name}
             </Link>

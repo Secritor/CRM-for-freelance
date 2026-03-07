@@ -1,5 +1,5 @@
 import { User, Pencil, Trash, Briefcase } from 'lucide-react'
-import styles from './Tab.module.css'
+import styles from '@/app/components-styles/Tab.module.css'
 import type { TabProps } from '@/interfaces/main'
 import EmptyState from './EmptyState'
 

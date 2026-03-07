@@ -1,8 +1,6 @@
-'use client'
-
 import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styles from './TaskBoard.module.css'
+import styles from '@/app/components-styles/TaskBoard.module.css'
 import UniversalModal from './UniversalModal'
 import type { FieldConfig } from '@/interfaces/main'
 import { formatDateInput } from '@/lib/dateUtils'

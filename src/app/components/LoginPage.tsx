@@ -1,10 +1,8 @@
-'use client'
-
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { login, register } from '@/features/auth/authSlice'
 import type { RootState } from '@/store/store'
-import styles from './LoginPage.module.css'
+import styles from '@/app/components-styles/LoginPage.module.css'
 import {
   Dialog,
   DialogContent,
@@ -12,7 +10,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-} from '@/components/ui/dialog'
+} from '@/ui/dialog'
 import { Eye, EyeOff } from 'lucide-react'
 import toast from 'react-hot-toast'
 

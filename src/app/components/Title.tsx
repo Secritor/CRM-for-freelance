@@ -1,4 +1,4 @@
-import styles from './Title.module.css'
+import styles from '@/app/components-styles/Title.module.css'
 import { ReactNode } from 'react'
 interface TitleProps {
   titleText: string

@@ -4,16 +4,15 @@
 
 ## Stack
 
-        1. Next.js, TS
-        2. Redux, React.Context
-        3. Next.js(App Router)
+        1. React, TS
+        2. Redux
+        3. React-router
         5. recharts / chart.js
-        6. React Hook Form
-        7. jest
+        6. Vitest + React Testing Library (unit-тесты)
 
 ## Include
 
-    [ ] 1. Регистрация и Аутентификация
+    [x] 1. Окно для регистрация и аутентификация
 
     [x] 2. Страница клиентов. На карточке имя, компания, почта, номер телефона, адрес, дополнительная информация.
         возможность добавить или удалить пользователя, изменить существующую информацию. Есть возможность поиска клиента через поисковую строку.
@@ -44,6 +43,11 @@
                 5.8.3 Количество сделок
                 5.8.4 Средний доход
                 5.8.5 Дата последний сделки
+
+## Testing
+
+    Unit-тесты: `npm run test` (watch) или `npm run test:run` (single run).
+    Подробнее — см. [TESTING.md](./TESTING.md).
 
 ## Features
 

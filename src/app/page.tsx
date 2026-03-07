@@ -1,5 +1,3 @@
-'use client'
-
 import { useMemo } from 'react'
 import styles from './page.module.css'
 import { Users, Clock, Calendar } from 'lucide-react'
