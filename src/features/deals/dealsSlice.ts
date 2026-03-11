@@ -7,7 +7,7 @@ const initialDeals: Deal[] = [
   {
     id: 1,
     title: 'Website Redesign',
-    clientId: 1,
+    clientId: 'cl_john-smith',
     clientName: 'John Smith',
     clientCompany: 'TechCorp Inc.',
     amount: 2500,
@@ -20,7 +20,7 @@ const initialDeals: Deal[] = [
   {
     id: 2,
     title: 'Mobile App Development',
-    clientId: 2,
+    clientId: 'cl_sarah-johnson',
     clientName: 'Sarah Johnson',
     clientCompany: 'StartupXYZ',
     amount: 5000,
@@ -33,7 +33,7 @@ const initialDeals: Deal[] = [
   {
     id: 3,
     title: 'Logo Design',
-    clientId: 3,
+    clientId: 'cl_mike-wilson',
     clientName: 'Mike Wilson',
     clientCompany: 'Creative Agency',
     amount: 800,
@@ -46,7 +46,7 @@ const initialDeals: Deal[] = [
   {
     id: 4,
     title: 'E-commerce Platform',
-    clientId: 1,
+    clientId: 'cl_john-smith',
     clientName: 'John Smith',
     clientCompany: 'TechCorp Inc.',
     amount: 3500,

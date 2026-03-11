@@ -178,11 +178,12 @@ const Deals = () => {
           { name: 'description', label: 'Description', type: 'textarea' },
         ]}
         onSubmit={data => {
-          const client = clients.find(c => c.id === Number(data.clientId))
+          const clientId = String(data.clientId ?? '')
+          const client = clients.find(c => String(c.id) === clientId)
 
           const dealData = {
             title: String(data.title ?? ''),
-            clientId: Number(data.clientId),
+            clientId,
             clientName: client?.name ?? '',
             clientCompany: client?.company ?? '',
             amount: Number(data.amount),

@@ -37,7 +37,7 @@ export const EventsList: Event[] = [
 
 export const clientData: Client[] = [
   {
-    id: 1,
+    id: 'cl_john-smith',
     name: 'John Smith',
     email: 'john@techcorp.com',
     phone: '+1 (555) 123-4567',
@@ -47,7 +47,7 @@ export const clientData: Client[] = [
     createdAt: '15.01.2024',
   },
   {
-    id: 2,
+    id: 'cl_sarah-johnson',
     name: 'Sarah Johnson',
     email: 'sarah@startupxyz.com',
     phone: '+1 (555) 987-6543',
@@ -57,7 +57,7 @@ export const clientData: Client[] = [
     createdAt: '20.01.2024',
   },
   {
-    id: 3,
+    id: 'cl_mike-wilson',
     name: 'Mike Wilson',
     email: 'mike@creativeagency.com',
     phone: '+1 (555) 456-7890',
