@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { HashRouter, Routes, Route, Outlet } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from '@/store/store'
 import AppShell from '@/app/components/AppShell'
@@ -16,7 +16,7 @@ import Analytics from '@/app/analytics/page'
 function App() {
   return (
     <Provider store={store}>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<Home />} />
@@ -26,7 +26,7 @@ function App() {
             <Route path="analytics" element={<Analytics />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </Provider>
   )
 }
