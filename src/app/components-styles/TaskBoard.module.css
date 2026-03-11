@@ -1,0 +1,189 @@
+.boardWrapper {
+  width: 100%;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.boardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.weekNav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navButton {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.navButton:hover {
+  background-color: #f3f4f6;
+}
+
+.weekRange {
+  font-size: 12px;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.boardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.boardSubtitle {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.taskForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.taskInput {
+  flex: 1 1 140px;
+  min-width: 0;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+}
+
+.daySelect {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  font-size: 13px;
+  background-color: #f9fafb;
+}
+
+.addButton {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.addButton:hover {
+  background-color: #1d4ed8;
+}
+
+.columnsWrapper {
+  width: 100%;
+}
+
+.columns {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.column {
+  background-color: #f9fafb;
+  border-radius: 10px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.columnHeader {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 2px;
+}
+
+.columnDate {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: -2px;
+  margin-bottom: 2px;
+}
+
+.tasksList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 40px;
+}
+
+.emptyColumn {
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+  padding: 4px 0;
+}
+
+.taskCard {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 6px 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.taskTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  word-break: break-word;
+}
+
+.taskActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.taskActionButton {
+  border: none;
+  background: none;
+  font-size: 11px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.taskActionButton:hover {
+  background-color: #e5e7eb;
+}
+
+.deleteButton {
+  color: #b91c1c;
+}

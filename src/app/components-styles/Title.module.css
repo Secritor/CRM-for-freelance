@@ -1,0 +1,26 @@
+.title_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.subtitle_text {
+  color: #6b7280;
+}
+.title_text {
+  margin-bottom: 15px;
+}
+.title_button {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 16px;
+  transition: background-color 0.2s;
+  max-height: 40px;
+}
