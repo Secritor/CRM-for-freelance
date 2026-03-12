@@ -53,6 +53,10 @@
     Unit-тесты: `npm run test` (watch) или `npm run test:run` (single run).
     Подробнее — см. [TESTING.md](./TESTING.md).
 
+## Docs
+
+    в docs/ находится небольшая документация к api компонента UniversalModal
+
 ## Coming soon
 
         1. Сбор продвинутой аналитики сделок:
